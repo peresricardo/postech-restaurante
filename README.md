@@ -1,2 +1,1 @@
-# postech-restaurante
-Tech Challenge Fase III
+# Tech Challenge Fase III
