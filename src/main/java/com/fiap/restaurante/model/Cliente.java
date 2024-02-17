@@ -1,8 +1,8 @@
 package com.fiap.restaurante.model;
 
+import com.fiap.restaurante.dto.ClienteDto;
 import com.fiap.restaurante.model.embedded.Endereco;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +11,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_clientes")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Cliente {
 
@@ -32,10 +31,17 @@ public class Cliente {
     private Endereco endereco;
 
 
-    public Cliente(String nome, String email, String fone, Endereco endereco) {
-        this.nome = nome;
-        this.email = email;
-        this.fone = fone;
-        this.endereco = endereco;
+//    public Cliente(String nome, String email, String fone, Endereco endereco) {
+//        this.nome = nome;
+//        this.email = email;
+//        this.fone = fone;
+//        this.endereco = endereco;
+//    }
+
+    public Cliente(ClienteDto clienteDto) {
+        this.nome = clienteDto.nome();
+        this.email = clienteDto.email();
+        this.fone = clienteDto.fone();
+        this.endereco = clienteDto.enderecoDto();
     }
 }

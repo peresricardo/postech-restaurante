@@ -8,34 +8,29 @@ import com.fiap.restaurante.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteMapper clienteMapper;
+    private final ClienteRepository clienteRepository;
 
     @Autowired
-    private ClienteRepository clienteRepository;
-
-    @Autowired
-    public ClienteServiceImpl(ClienteMapper clienteMapper) {
+    public ClienteServiceImpl(ClienteMapper clienteMapper, ClienteRepository clienteRepository) {
         this.clienteMapper = clienteMapper;
+        this.clienteRepository = clienteRepository;
     }
 
     @Override
-    public ResponseEntity<?> cadastrarCliente(ClienteDto clienteDto) {
-        Cliente cliente = clienteMapper.fromDto(clienteDto);
-        this.clienteRepository.save(clienteMapper.fromDto(clienteDto));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public Cliente cadastrarCliente(ClienteDto clienteDto) {
+        Cliente novoCliente = new Cliente(clienteDto);
+        clienteRepository.save(novoCliente);
+        return novoCliente;
     }
 
     @Override
-    public Page<List<Cliente>> listarTodos(Pageable page) {
-        return null;
+    public Page<Cliente> listarTodos(Pageable page) {
+        return clienteRepository.findAll(page);
     }
 
 
