@@ -32,4 +32,10 @@ public class Cliente {
     private Endereco endereco;
 
 
+    public Cliente(String nome, String email, String fone, Endereco endereco) {
+        this.nome = nome;
+        this.email = email;
+        this.fone = fone;
+        this.endereco = endereco;
+    }
 }
