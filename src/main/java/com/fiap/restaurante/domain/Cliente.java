@@ -1,7 +1,7 @@
-package com.fiap.restaurante.model;
+package com.fiap.restaurante.domain;
 
-import com.fiap.restaurante.dto.ClienteDto;
-import com.fiap.restaurante.model.embedded.Endereco;
+import com.fiap.restaurante.domain.dto.ClienteDto;
+import com.fiap.restaurante.domain.embedded.Endereco;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,14 +29,6 @@ public class Cliente {
 
     @Embedded
     private Endereco endereco;
-
-
-//    public Cliente(String nome, String email, String fone, Endereco endereco) {
-//        this.nome = nome;
-//        this.email = email;
-//        this.fone = fone;
-//        this.endereco = endereco;
-//    }
 
     public Cliente(ClienteDto clienteDto) {
         this.nome = clienteDto.nome();

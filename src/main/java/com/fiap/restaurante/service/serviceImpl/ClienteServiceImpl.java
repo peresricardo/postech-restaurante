@@ -1,23 +1,21 @@
 package com.fiap.restaurante.service.serviceImpl;
 
-import com.fiap.restaurante.dto.ClienteDto;
-import com.fiap.restaurante.mapper.ClienteMapper;
-import com.fiap.restaurante.model.Cliente;
+import com.fiap.restaurante.domain.Cliente;
+import com.fiap.restaurante.domain.dto.ClienteDto;
 import com.fiap.restaurante.repository.ClienteRepository;
 import com.fiap.restaurante.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
-    private final ClienteMapper clienteMapper;
     private final ClienteRepository clienteRepository;
 
     @Autowired
-    public ClienteServiceImpl(ClienteMapper clienteMapper, ClienteRepository clienteRepository) {
-        this.clienteMapper = clienteMapper;
+    public ClienteServiceImpl(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 

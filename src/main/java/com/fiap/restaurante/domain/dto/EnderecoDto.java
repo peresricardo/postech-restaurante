@@ -1,4 +1,4 @@
-package com.fiap.restaurante.dto;
+package com.fiap.restaurante.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

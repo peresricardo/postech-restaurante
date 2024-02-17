@@ -1,7 +1,7 @@
 package com.fiap.restaurante.controller;
 
-import com.fiap.restaurante.dto.ClienteDto;
-import com.fiap.restaurante.model.Cliente;
+import com.fiap.restaurante.domain.Cliente;
+import com.fiap.restaurante.domain.dto.ClienteDto;
 import com.fiap.restaurante.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/clientes", produces = {"application/json"})
-public class ClienteContrloler {
+public class ClienteController {
 
     private final ClienteService clienteService;
 
     @Autowired
-    public ClienteContrloler(ClienteService clienteService) {
+    public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
 

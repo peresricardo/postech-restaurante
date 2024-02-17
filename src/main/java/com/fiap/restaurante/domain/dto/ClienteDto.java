@@ -1,4 +1,4 @@
-package com.fiap.restaurante.dto;
+package com.fiap.restaurante.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -13,5 +13,5 @@ public record ClienteDto(
         @NotBlank(message = "Fone é preenchimento obrigatório")
         @Size(min = 5, max = 80, message = "Fone dever ser preenchido")
         String fone,
-        com.fiap.restaurante.model.embedded.Endereco enderecoDto
+        com.fiap.restaurante.domain.embedded.Endereco enderecoDto
 ) { }

@@ -1,11 +1,13 @@
-package com.fiap.restaurante.model;
+package com.fiap.restaurante.domain;
 
-import java.util.List;
-import java.util.UUID;
-import com.fiap.restaurante.model.embedded.Endereco;
+import com.fiap.restaurante.domain.dto.RestauranteDto;
+import com.fiap.restaurante.domain.embedded.Endereco;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -29,4 +31,12 @@ public class Restaurante {
     private Endereco endereco;
     @OneToMany(cascade = CascadeType.ALL)
     private List<HorarioFuncionamento> horario;
+
+    public Restaurante(RestauranteDto restauranteDto) {
+        this.razaoSocial = restauranteDto.razaoSocial();
+        this.nomeFantasia = restauranteDto.nomeFantasia();
+        this.tipoCozinha = restauranteDto.tipoCozinha();
+        this.capacidade = restauranteDto.capacidade();
+        this.endereco = new Endereco(restauranteDto.enderecoDto());
+    }
 }

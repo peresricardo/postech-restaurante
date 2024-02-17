@@ -1,7 +1,7 @@
 package com.fiap.restaurante.service;
 
-import com.fiap.restaurante.dto.ClienteDto;
-import com.fiap.restaurante.model.Cliente;
+import com.fiap.restaurante.domain.Cliente;
+import com.fiap.restaurante.domain.dto.ClienteDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
