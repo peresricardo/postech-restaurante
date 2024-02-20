@@ -3,15 +3,21 @@ package com.fiap.restaurante.domain;
 import com.fiap.restaurante.domain.dto.ClienteDto;
 import com.fiap.restaurante.domain.embedded.Endereco;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_clientes")
 @Data
+@Builder(toBuilder = true)
 @NoArgsConstructor
+@AllArgsConstructor
+@Jacksonized
 public class Cliente {
 
     @Id
@@ -34,6 +40,13 @@ public class Cliente {
         this.nome = clienteDto.nome();
         this.email = clienteDto.email();
         this.fone = clienteDto.fone();
-        this.endereco = clienteDto.enderecoDto();
+        this.endereco = new Endereco();
+        this.endereco.setLogradouro(clienteDto.endereco().logradouro());
+        this.endereco.setNumero(clienteDto.endereco().numero());
+        this.endereco.setComplemento(clienteDto.endereco().complemento());
+        this.endereco.setBairro(clienteDto.endereco().bairro());
+        this.endereco.setCidade(clienteDto.endereco().cidade());
+        this.endereco.setUf(clienteDto.endereco().uf());
+        this.endereco.setCep(clienteDto.endereco().cep());
     }
 }

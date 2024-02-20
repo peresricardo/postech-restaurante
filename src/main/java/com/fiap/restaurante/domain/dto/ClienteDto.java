@@ -13,5 +13,5 @@ public record ClienteDto(
         @NotBlank(message = "Fone é preenchimento obrigatório")
         @Size(min = 5, max = 80, message = "Fone dever ser preenchido")
         String fone,
-        com.fiap.restaurante.domain.embedded.Endereco enderecoDto
+        EnderecoDto endereco
 ) { }
