@@ -1,3 +1,7 @@
+#Swagger
+springdoc:
+  swagger-ui:
+    path: /documentacao
 # Spring Boot configuration
 spring:
   profiles:

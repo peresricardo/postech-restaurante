@@ -3,6 +3,8 @@ package com.fiap.restaurante.controller;
 import com.fiap.restaurante.domain.Restaurante;
 import com.fiap.restaurante.domain.dto.RestauranteDto;
 import com.fiap.restaurante.service.RestauranteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/restaurantes", produces = {"application/json"})
+@Tag(name = "Cadastro de Restaurantes")
 public class RestauranteController {
 
     private final RestauranteService restauranteService;
@@ -23,24 +26,28 @@ public class RestauranteController {
     }
 
     @PostMapping
+    @Operation(summary = "Efetua a inclusão de um novo restaurante", method = "POST")
     public ResponseEntity<Restaurante> cadastrarRestaurante(@RequestBody RestauranteDto restauranteDto) {
         Restaurante novoRestaurante = restauranteService.cadastrar(restauranteDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoRestaurante);
     }
 
     @GetMapping
+    @Operation(summary = "Efetua a listagem de todos os restaurantes", method = "GET")
     public ResponseEntity<List<Restaurante>> listarRestaurantes() {
         List<Restaurante> restaurantes = restauranteService.listar();
         return ResponseEntity.ok().body(restaurantes);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Efetua a alteração de um restaurante", method = "PUT")
     public ResponseEntity<Restaurante> atualizarRestaurante(@PathVariable UUID id, @RequestBody RestauranteDto restauranteDto) {
         Restaurante restaurante = restauranteService.atualizarRestaurante(id, restauranteDto);
         return ResponseEntity.ok().body(restaurante);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Efetua a exclusão de um restaurante", method = "DELETE")
     public ResponseEntity<Void> deletarRestaurante(@PathVariable UUID id) {
         restauranteService.deletarRestaurante(id);
         return ResponseEntity.noContent().build();
