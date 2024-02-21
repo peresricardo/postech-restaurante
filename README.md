@@ -4,6 +4,15 @@
 <br>
 <br>
 
+## API
+<hr>
+
+> **Documentação swagger **
+> 
+> servidor OnRender.com <br>
+> https://fiap-restaurante.onrender.com/documentacao
+
+
 ## Execução de testes no projeto
 <hr>
 
