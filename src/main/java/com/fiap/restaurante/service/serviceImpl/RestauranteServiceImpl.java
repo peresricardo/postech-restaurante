@@ -1,10 +1,12 @@
 package com.fiap.restaurante.service.serviceImpl;
 
+import com.fiap.restaurante.domain.Mesa;
 import com.fiap.restaurante.domain.Restaurante;
 import com.fiap.restaurante.domain.dto.EnderecoDto;
 import com.fiap.restaurante.domain.dto.RestauranteDto;
 import com.fiap.restaurante.domain.embedded.Endereco;
 import com.fiap.restaurante.domain.exceptions.RestauranteNotFoundException;
+import com.fiap.restaurante.repository.MesaRepository;
 import com.fiap.restaurante.repository.RestauranteRepository;
 import com.fiap.restaurante.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,12 @@ import java.util.UUID;
 public class RestauranteServiceImpl implements RestauranteService {
 
     private final RestauranteRepository restauranteRepository;
+    private final MesaRepository mesaRepository;
 
     @Autowired
-    public RestauranteServiceImpl (RestauranteRepository restauranteRepository) {
+    public RestauranteServiceImpl (RestauranteRepository restauranteRepository, MesaRepository mesaRepository) {
         this.restauranteRepository = restauranteRepository;
+        this.mesaRepository = mesaRepository;
     }
 
     @Override
@@ -34,6 +38,20 @@ public class RestauranteServiceImpl implements RestauranteService {
     @Override
     public List<Restaurante> listar() {
         return this.restauranteRepository.findAll();
+    }
+
+    @Override
+    public Restaurante cadastraMesas(UUID id, List<Integer> lugares) {
+        Restaurante restaurante = restauranteRepository.findById(id).orElseThrow(RestauranteNotFoundException::new);
+        for (Integer lugar: lugares) {
+            Mesa mesa = new Mesa();
+            mesa.setIdRestaurante(id);
+            mesa.setLugares(lugar);
+            mesaRepository.save(mesa);
+            restaurante.getMesas().add(mesa);
+        }
+        restauranteRepository.save(restaurante);
+        return restaurante;
     }
 
     @Override

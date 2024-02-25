@@ -12,6 +12,8 @@ public interface RestauranteService {
 
     List<Restaurante> listar();
 
+    Restaurante cadastraMesas(UUID id, List<Integer> lugares);
+
     Restaurante atualizarRestaurante(UUID id, RestauranteDto restauranteDto);
 
     void deletarRestaurante(UUID id);

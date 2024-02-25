@@ -31,6 +31,8 @@ public class Restaurante {
     private Endereco endereco;
     @OneToMany(cascade = CascadeType.ALL)
     private List<HorarioFuncionamento> horario;
+    @OneToMany
+    private List<Mesa> mesas;
 
     public Restaurante(RestauranteDto restauranteDto) {
         this.razaoSocial = restauranteDto.razaoSocial();

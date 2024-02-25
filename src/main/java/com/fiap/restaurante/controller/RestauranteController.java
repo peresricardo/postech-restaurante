@@ -32,6 +32,13 @@ public class RestauranteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoRestaurante);
     }
 
+    @PostMapping("/{id}/cadastro-mesas")
+    @Operation(summary = "Efetua a inclusão de mesas em um restaurante", method = "POST")
+    public ResponseEntity<Restaurante> cadastrarRestaurante(@PathVariable UUID id, @RequestBody List<Integer> lugares) {
+        Restaurante restaurante = restauranteService.cadastraMesas(id, lugares);
+        return ResponseEntity.ok().body(restaurante);
+    }
+
     @GetMapping
     @Operation(summary = "Efetua a listagem de todos os restaurantes", method = "GET")
     public ResponseEntity<List<Restaurante>> listarRestaurantes() {
