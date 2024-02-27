@@ -44,7 +44,7 @@ public class ClienteServiceImpl implements ClienteService {
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + id));
         return clienteToDto(cliente);
     }
-
+    @Override
     public ClienteDto clienteToDto(Cliente cliente) {
         return new ClienteDto(
                 cliente.getId(),

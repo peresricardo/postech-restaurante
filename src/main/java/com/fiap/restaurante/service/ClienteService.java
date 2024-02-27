@@ -17,4 +17,6 @@ public interface ClienteService {
     ClienteDto editarCliente(UUID id, ClienteDto clienteDto);
 
     boolean deletarCliente(UUID id);
+
+    public ClienteDto clienteToDto(Cliente cliente);
 }
