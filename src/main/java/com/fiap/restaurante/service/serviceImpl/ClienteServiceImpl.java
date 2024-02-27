@@ -2,12 +2,18 @@ package com.fiap.restaurante.service.serviceImpl;
 
 import com.fiap.restaurante.domain.Cliente;
 import com.fiap.restaurante.domain.dto.ClienteDto;
+import com.fiap.restaurante.domain.dto.EnderecoDto;
+import com.fiap.restaurante.domain.embedded.Endereco;
 import com.fiap.restaurante.repository.ClienteRepository;
 import com.fiap.restaurante.service.ClienteService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -27,9 +33,59 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Page<Cliente> listarTodos(Pageable page) {
-        return clienteRepository.findAll(page);
+    public Page<ClienteDto> listarTodos(Pageable page) {
+        Page<Cliente> clientes = clienteRepository.findAll(page);
+        return clientes.map(this::clienteToDto);
     }
 
+    @Override
+    public ClienteDto buscarPorId(UUID id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + id));
+        return clienteToDto(cliente);
+    }
 
+    public ClienteDto clienteToDto(Cliente cliente) {
+        return new ClienteDto(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getEmail(),
+                cliente.getFone(),
+                new EnderecoDto(
+                        cliente.getEndereco().getLogradouro(),
+                        cliente.getEndereco().getNumero(),
+                        cliente.getEndereco().getComplemento(),
+                        cliente.getEndereco().getBairro(),
+                        cliente.getEndereco().getCidade(),
+                        cliente.getEndereco().getUf(),
+                        cliente.getEndereco().getCep()
+                )
+        );
+    }
+
+    @Override
+    public ClienteDto editarCliente(UUID id, ClienteDto clienteDto) {
+        // Verifica se o cliente com o ID especificado existe
+        Cliente clienteExistente = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + id));
+
+        // Atualiza as informações do cliente com base nos dados fornecidos
+        Cliente clienteAtualizado = new Cliente(clienteDto);
+        clienteAtualizado.setId(clienteExistente.getId()); // Mantém o mesmo ID do cliente existente
+
+        // Salva as alterações no banco de dados
+        clienteRepository.save(clienteAtualizado);
+
+        // Retorna o cliente atualizado como ClienteDto
+        return clienteToDto(clienteAtualizado);
+    }
+
+    public boolean deletarCliente(UUID id) {
+        if (clienteRepository.existsById(id)) {
+            clienteRepository.deleteById(id);
+            return true; // Cliente deletado com sucesso
+        } else {
+            return false; // Cliente não encontrado
+        }
+    }
 }

@@ -5,8 +5,16 @@ import com.fiap.restaurante.domain.dto.ClienteDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public interface ClienteService {
     Cliente cadastrarCliente(ClienteDto cLienteDto);
 
-    Page<Cliente> listarTodos(Pageable page);
+    Page<ClienteDto> listarTodos(Pageable page);
+
+    ClienteDto buscarPorId(UUID id);
+
+    ClienteDto editarCliente(UUID id, ClienteDto clienteDto);
+
+    boolean deletarCliente(UUID id);
 }
