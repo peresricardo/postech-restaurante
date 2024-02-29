@@ -3,6 +3,8 @@ package com.fiap.restaurante.domain;
 import com.fiap.restaurante.domain.dto.RestauranteDto;
 import com.fiap.restaurante.domain.embedded.Endereco;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +17,8 @@ import java.util.UUID;
 @Table(name = "tb_restaurantes")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Restaurante {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
