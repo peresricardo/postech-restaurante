@@ -28,13 +28,13 @@ public class RestauranteController {
     @PostMapping
     @Operation(summary = "Efetua a inclusão de um novo restaurante", method = "POST")
     public ResponseEntity<Restaurante> cadastrarRestaurante(@RequestBody RestauranteDto restauranteDto) {
-        Restaurante novoRestaurante = restauranteService.cadastrar(restauranteDto);
+        Restaurante novoRestaurante = restauranteService.cadastrarRestaurante(restauranteDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoRestaurante);
     }
 
-    @PostMapping("/{id}/cadastro-mesas")
+    @PostMapping("/{id}/mesas")
     @Operation(summary = "Efetua a inclusão de mesas em um restaurante", method = "POST")
-    public ResponseEntity<Restaurante> cadastrarRestaurante(@PathVariable UUID id, @RequestBody List<Integer> lugares) {
+    public ResponseEntity<Restaurante> cadastrarMesa(@PathVariable UUID id, @RequestBody List<Integer> lugares) {
         Restaurante restaurante = restauranteService.cadastraMesas(id, lugares);
         return ResponseEntity.ok().body(restaurante);
     }

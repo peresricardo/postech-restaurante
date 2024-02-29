@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/reservas", produces = {"application/json"})
-@Tag(name = "Cadastro de Reseservas")
+@Tag(name = "Cadastro de Reservas")
 public class ReservaController {
 
     private final ReservaService reservaService;

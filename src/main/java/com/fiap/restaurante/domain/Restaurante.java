@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,11 +28,14 @@ public class Restaurante {
     private String tipoCozinha;
     @Column(nullable = false)
     private Integer capacidade;
+    @Column(nullable = false)
+    private LocalTime horaAbertura;
+    @Column(nullable = false)
+    private LocalTime horaEncerramento;
     @Embedded
     private Endereco endereco;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<HorarioFuncionamento> horario;
-    @OneToMany
+
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Mesa> mesas;
 
     public Restaurante(RestauranteDto restauranteDto) {
@@ -39,6 +43,8 @@ public class Restaurante {
         this.nomeFantasia = restauranteDto.nomeFantasia();
         this.tipoCozinha = restauranteDto.tipoCozinha();
         this.capacidade = restauranteDto.capacidade();
-        this.endereco = new Endereco(restauranteDto.enderecoDto());
+        this.horaAbertura = restauranteDto.horaAbertura();
+        this.horaEncerramento = restauranteDto.horaEncerramento();
+        this.endereco = new Endereco(restauranteDto.endereco());
     }
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface RestauranteService {
 
-    Restaurante cadastrar(RestauranteDto restauranteDto);
+    Restaurante cadastrarRestaurante(RestauranteDto restauranteDto);
 
     List<Restaurante> listar();
 

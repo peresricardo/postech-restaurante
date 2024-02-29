@@ -29,7 +29,7 @@ public class RestauranteServiceImpl implements RestauranteService {
     }
 
     @Override
-    public Restaurante cadastrar(RestauranteDto restauranteDto) {
+    public Restaurante cadastrarRestaurante(RestauranteDto restauranteDto) {
         Restaurante novoRestaurante = new Restaurante(restauranteDto);
         restauranteRepository.save(novoRestaurante);
         return novoRestaurante;
@@ -64,7 +64,7 @@ public class RestauranteServiceImpl implements RestauranteService {
         restaurante.setTipoCozinha(restauranteDto.tipoCozinha());
         restaurante.setCapacidade(restauranteDto.capacidade());
 
-        Optional.ofNullable(restauranteDto.enderecoDto())
+        Optional.ofNullable(restauranteDto.endereco())
                 .ifPresent(e -> updateEndereco(restaurante.getEndereco(), e));
 
         return restauranteRepository.save(restaurante);

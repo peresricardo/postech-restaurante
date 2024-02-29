@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalTime;
+
 public record RestauranteDto(
         @NotBlank(message = "Razão Social é preenchimento obrigatório")
         @Size(min = 5, max = 80, message = "Razão Social dever ser preenchido entre 5 a 80 caracteres")
@@ -16,5 +18,9 @@ public record RestauranteDto(
         String tipoCozinha,
         @NotNull(message = "Capacidade é preenchimento obrigatório")
         Integer capacidade,
-        EnderecoDto enderecoDto
+        @NotBlank(message = "Horário de abertura é obrigatório")
+        LocalTime horaAbertura,
+        @NotBlank(message = "Horário de encerramento é obrigatório")
+        LocalTime horaEncerramento,
+        EnderecoDto endereco
 ) {}
