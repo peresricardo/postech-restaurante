@@ -4,6 +4,7 @@ import com.fiap.restaurante.domain.Cliente;
 import com.fiap.restaurante.domain.dto.ClienteDto;
 import com.fiap.restaurante.domain.dto.EnderecoDto;
 import com.fiap.restaurante.domain.embedded.Endereco;
+import com.fiap.restaurante.domain.exceptions.ClienteNotFoundException;
 import com.fiap.restaurante.repository.ClienteRepository;
 import com.fiap.restaurante.service.ClienteService;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,27 +42,10 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteDto buscarPorId(UUID id) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + id));
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado com o ID: " + id));
         return clienteToDto(cliente);
     }
-    @Override
-    public ClienteDto clienteToDto(Cliente cliente) {
-        return new ClienteDto(
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getEmail(),
-                cliente.getFone(),
-                new EnderecoDto(
-                        cliente.getEndereco().getLogradouro(),
-                        cliente.getEndereco().getNumero(),
-                        cliente.getEndereco().getComplemento(),
-                        cliente.getEndereco().getBairro(),
-                        cliente.getEndereco().getCidade(),
-                        cliente.getEndereco().getUf(),
-                        cliente.getEndereco().getCep()
-                )
-        );
-    }
+
 
     @Override
     public ClienteDto editarCliente(UUID id, ClienteDto clienteDto) {
@@ -88,4 +72,23 @@ public class ClienteServiceImpl implements ClienteService {
             return false; // Cliente não encontrado
         }
     }
+    @Override
+    public ClienteDto clienteToDto(Cliente cliente) {
+        return new ClienteDto(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getEmail(),
+                cliente.getFone(),
+                new EnderecoDto(
+                        cliente.getEndereco().getLogradouro(),
+                        cliente.getEndereco().getNumero(),
+                        cliente.getEndereco().getComplemento(),
+                        cliente.getEndereco().getBairro(),
+                        cliente.getEndereco().getCidade(),
+                        cliente.getEndereco().getUf(),
+                        cliente.getEndereco().getCep()
+                )
+        );
+    }
+
 }
