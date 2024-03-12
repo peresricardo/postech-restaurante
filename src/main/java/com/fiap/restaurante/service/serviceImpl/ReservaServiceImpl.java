@@ -1,8 +1,10 @@
 package com.fiap.restaurante.service.serviceImpl;
 
+import com.fiap.restaurante.domain.Mesa;
 import com.fiap.restaurante.domain.Reserva;
 import com.fiap.restaurante.domain.Restaurante;
 import com.fiap.restaurante.domain.exceptions.RestauranteNotFoundException;
+import com.fiap.restaurante.repository.MesaRepository;
 import com.fiap.restaurante.repository.ReservaRepository;
 import com.fiap.restaurante.repository.RestauranteRepository;
 import com.fiap.restaurante.service.ReservaService;
@@ -18,11 +20,13 @@ public class ReservaServiceImpl implements ReservaService {
 
     private final ReservaRepository reservaRepository;
     private final RestauranteRepository restauranteRepository;
+    private final MesaRepository mesaRepository;
 
     @Autowired
-    public ReservaServiceImpl(ReservaRepository reservaRepository, RestauranteRepository restauranteRepository) {
+    public ReservaServiceImpl(ReservaRepository reservaRepository, RestauranteRepository restauranteRepository, MesaRepository mesaRepository) {
         this.reservaRepository = reservaRepository;
         this.restauranteRepository = restauranteRepository;
+        this.mesaRepository = mesaRepository;
     }
 
     @Override
@@ -31,7 +35,8 @@ public class ReservaServiceImpl implements ReservaService {
         if(!restaurante.isPresent()) {
             throw new RestauranteNotFoundException("Para fazer uma reserva indique um restaurante existente");
         }
-        if(!restaurante.get().getMesas().contains(reserva.getIdMesa())) {
+        Optional<Mesa> validamesa = mesaRepository.findById(reserva.getIdMesa());
+        if(!restaurante.get().getMesas().contains(validamesa.get())) {
             throw new IllegalArgumentException("Indique uma mesa existente");
         }
 

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +21,6 @@ public class Reserva {
 
     private UUID idMesa;
 
-    private LocalTime horario;
+    private LocalDateTime horario;
 
 }
