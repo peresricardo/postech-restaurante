@@ -65,12 +65,10 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     public boolean deletarCliente(UUID id) {
-        if (clienteRepository.existsById(id)) {
-            clienteRepository.deleteById(id);
+            var clienteDto = buscarPorId(id);
+            Cliente cliente = new Cliente(clienteDto);
+            clienteRepository.delete(cliente);
             return true; // Cliente deletado com sucesso
-        } else {
-            return false; // Cliente não encontrado
-        }
     }
     @Override
     public ClienteDto clienteToDto(Cliente cliente) {
