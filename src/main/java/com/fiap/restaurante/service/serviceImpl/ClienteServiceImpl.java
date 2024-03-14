@@ -41,7 +41,8 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDto buscarPorId(UUID id) {
-        Cliente cliente = clienteRepository.findById(id)
+        Cliente cliente;
+        cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado com o ID: " + id));
         return clienteToDto(cliente);
     }
@@ -88,5 +89,6 @@ public class ClienteServiceImpl implements ClienteService {
                 )
         );
     }
+
 
 }

@@ -2,6 +2,7 @@ package com.fiap.restaurante.service;
 
 import com.fiap.restaurante.domain.Cliente;
 import com.fiap.restaurante.domain.embedded.Endereco;
+import com.fiap.restaurante.domain.exceptions.ClienteNotFoundException;
 import com.fiap.restaurante.repository.ClienteRepository;
 import com.fiap.restaurante.service.serviceImpl.ClienteServiceImpl;
 import com.fiap.restaurante.utils.ClienteHelper;
@@ -16,9 +17,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -100,4 +103,71 @@ public class ClienteServiceIT {
         }
 
     }
+
+    @Nested
+    class EditarCliente {
+
+        @Test
+        void devePermitirAlterarCliente(){
+            //arr
+
+            var cliente = ClienteHelper.gerarRegistro();
+            var clienteDto = clienteService.clienteToDto(cliente);
+            var clienteRegistrado = clienteService.cadastrarCliente(clienteDto);
+
+            var clienteNovo = clienteRegistrado;
+            clienteNovo.setNome("Teste");
+            clienteNovo.setFone("5499199999");
+            clienteNovo.setEmail("teste2@teste.com");
+            clienteNovo.setEndereco(cliente.getEndereco());
+
+
+            var clienteObtidoDto = clienteService.editarCliente(clienteRegistrado.getId(), clienteService.clienteToDto(clienteNovo));
+            var clienteObtido = new Cliente(clienteObtidoDto);
+            // Asserts
+            assertThat(clienteObtido).isInstanceOf(Cliente.class).isNotNull();
+
+
+            assertThat(clienteObtido.getNome()).isEqualTo(clienteNovo.getNome());
+            assertThat(clienteObtido.getFone()).isEqualTo(clienteNovo.getFone());
+            assertThat(clienteObtido.getEmail()).isEqualTo(clienteNovo.getEmail());
+
+
+
+        }
+
+    }
+
+    @Nested
+    class BuscarPorId {
+        @Test
+        void devePermitirBuscarPorId() {
+            //arr
+            var cliente = ClienteHelper.gerarRegistro();
+            var clienteDto = clienteService.clienteToDto(cliente);
+            var clienteRegistrado = clienteService.cadastrarCliente(clienteDto);
+
+
+            //act
+
+            var clienteObtido = clienteService
+                    .buscarPorId(clienteRegistrado.getId());
+
+            //assert
+
+            assertThat(clienteObtido).isEqualTo(clienteService.clienteToDto(clienteRegistrado));
+        }
+
+        @Test
+        void deveGerarExcecao_QuandoBuscarPorId_NaoExiste() {
+            var id = UUID.randomUUID();
+
+            assertThatThrownBy(() -> clienteService.buscarPorId(id))
+                    .isInstanceOf(ClienteNotFoundException.class)
+                    .hasMessage("Cliente não encontrado com o ID: " + id);
+
+        }
+
+    }
 }
+
