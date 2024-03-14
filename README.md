@@ -27,6 +27,10 @@ git clone https://github.com/peresricardo/postech-restaurante.git
 ```bash
 servidor OnRender.com
 https://fiap-restaurante.onrender.com/documentacao
+
+Actuator - Verifica a saúde do app
+local -> http://localhost:8080/actuator/health
+onRender -> https://fiap-restaurante.onrender.com/actuator/health
 ```
 
 ## Execução de testes no projeto
