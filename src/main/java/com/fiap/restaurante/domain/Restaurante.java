@@ -39,7 +39,7 @@ public class Restaurante {
     @Embedded
     private Endereco endereco;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
     private List<Mesa> mesas;
 
     public Restaurante(RestauranteDto restauranteDto) {
