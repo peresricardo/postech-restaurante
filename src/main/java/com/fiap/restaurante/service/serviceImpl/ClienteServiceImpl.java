@@ -50,18 +50,14 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDto editarCliente(UUID id, ClienteDto clienteDto) {
-        // Verifica se o cliente com o ID especificado existe
         Cliente clienteExistente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + id));
 
-        // Atualiza as informações do cliente com base nos dados fornecidos
         Cliente clienteAtualizado = new Cliente(clienteDto);
-        clienteAtualizado.setId(clienteExistente.getId()); // Mantém o mesmo ID do cliente existente
+        clienteAtualizado.setId(clienteExistente.getId());
 
-        // Salva as alterações no banco de dados
         clienteRepository.save(clienteAtualizado);
 
-        // Retorna o cliente atualizado como ClienteDto
         return clienteToDto(clienteAtualizado);
     }
 
@@ -69,7 +65,7 @@ public class ClienteServiceImpl implements ClienteService {
             var clienteDto = buscarPorId(id);
             Cliente cliente = new Cliente(clienteDto);
             clienteRepository.delete(cliente);
-            return true; // Cliente deletado com sucesso
+            return true;
     }
     @Override
     public ClienteDto clienteToDto(Cliente cliente) {

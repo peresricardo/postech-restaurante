@@ -65,9 +65,9 @@ public class ClienteController {
     public ResponseEntity<Boolean> deletarCliente(@PathVariable UUID id) {
         boolean deletado = clienteService.deletarCliente(id);
         if (deletado) {
-            return ResponseEntity.ok(true); // Cliente deletado com sucesso
+            return ResponseEntity.ok(true);
         } else {
-            return ResponseEntity.notFound().build(); // Cliente não encontrado
+            return ResponseEntity.notFound().build();
         }
     }
 }
