@@ -9,6 +9,8 @@ import com.fiap.restaurante.repository.ReservaRepository;
 import com.fiap.restaurante.repository.RestauranteRepository;
 import com.fiap.restaurante.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,8 +66,8 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public List<Reserva> listar() {
-        return this.reservaRepository.findAll();
+    public Page<Reserva> listar(Pageable pageable) {
+        return this.reservaRepository.findAll(pageable);
     }
 
     @Override
@@ -95,11 +97,13 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public void deletarReserva(UUID id) {
+    public boolean deletarReserva(UUID id) {
         Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Reserva inexistente"));
 
         reservaRepository.delete(reserva);
+
+        return true;
     }
 
 }

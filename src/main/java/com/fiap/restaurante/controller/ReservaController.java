@@ -5,11 +5,12 @@ import com.fiap.restaurante.service.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,8 +34,8 @@ public class ReservaController {
 
     @GetMapping
     @Operation(summary = "Efetua a listagem de todas as reservas", method = "GET")
-    public ResponseEntity<List<Reserva>> listarReservas() {
-        List<Reserva> reservas = reservaService.listar();
+    public ResponseEntity<Page<Reserva>> listarReservas(Pageable pageable) {
+        Page<Reserva> reservas = reservaService.listar(pageable);
         return ResponseEntity.ok().body(reservas);
     }
 

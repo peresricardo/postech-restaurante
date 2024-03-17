@@ -1,17 +1,18 @@
 package com.fiap.restaurante.service;
 
 import com.fiap.restaurante.domain.Reserva;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface ReservaService {
 
     Reserva cadastrar(Reserva restauranteDto);
 
-    List<Reserva> listar();
+    Page<Reserva> listar(Pageable pageable);
 
     Reserva atualizarReserva(UUID id, Reserva reserva);
 
-    void deletarReserva(UUID id);
+    boolean deletarReserva(UUID id);
 }
