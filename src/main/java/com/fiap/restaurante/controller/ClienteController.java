@@ -6,6 +6,7 @@ import com.fiap.restaurante.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,7 @@ public class ClienteController {
 
     @PostMapping
     @Operation(summary = "Efetua a inclusão de um novo cliente", method = "POST")
-    public ResponseEntity<Cliente> cadastrarCliente(@RequestBody ClienteDto clienteDto){
+    public ResponseEntity<Cliente> cadastrarCliente(@Valid @RequestBody ClienteDto clienteDto){
         Cliente novoCliente = clienteService.cadastrarCliente(clienteDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
     }
@@ -52,7 +53,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteDto> editarCliente(@PathVariable UUID id, @RequestBody ClienteDto clienteDto) {
+    public ResponseEntity<ClienteDto> editarCliente(@PathVariable UUID id, @Valid @RequestBody ClienteDto clienteDto) {
         try {
             ClienteDto clienteEditado = clienteService.editarCliente(id, clienteDto);
             return ResponseEntity.ok(clienteEditado);

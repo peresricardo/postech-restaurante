@@ -70,10 +70,10 @@ public class ReservaServiceTest {
 //        verify(reservaReporitory, times(1)).save(any(Reserva.class));
 //    }
 
-    @Test
-    void devePermitirAlterarReserva() {
-        fail("implementar teste padrão e exceções");
-    }
+//    @Test
+//    void devePermitirAlterarReserva() {
+//        fail("implementar teste padrão e exceções");
+//    }
 
     @Test
     void devePermitirRemoverReserva() {

@@ -4,6 +4,7 @@ import com.fiap.restaurante.domain.Reserva;
 import com.fiap.restaurante.service.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,7 @@ public class ReservaController {
 
     @PostMapping
     @Operation(summary = "Cria uma reserva de uma mesa em um Restaurante", method = "POST")
-    public ResponseEntity<Reserva> cadastrarReserva(@RequestBody Reserva reserva) {
+    public ResponseEntity<Reserva> cadastrarReserva(@Valid @RequestBody Reserva reserva) {
         Reserva novaReserva = reservaService.cadastrar(reserva);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaReserva);
     }
@@ -41,7 +42,7 @@ public class ReservaController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Efetua a alteração de uma reserva", method = "PUT")
-    public ResponseEntity<Reserva> atualizarReserva(@PathVariable UUID id, @RequestBody Reserva reserva) {
+    public ResponseEntity<Reserva> atualizarReserva(@PathVariable UUID id, @Valid @RequestBody Reserva reserva) {
         Reserva novaReserva = reservaService.atualizarReserva(id, reserva);
         return ResponseEntity.ok().body(novaReserva);
     }
