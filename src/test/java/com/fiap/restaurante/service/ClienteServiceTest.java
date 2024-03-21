@@ -2,7 +2,6 @@ package com.fiap.restaurante.service;
 
 import com.fiap.restaurante.domain.Cliente;
 import com.fiap.restaurante.domain.dto.ClienteDto;
-import com.fiap.restaurante.domain.embedded.Endereco;
 import com.fiap.restaurante.domain.exceptions.ClienteNotFoundException;
 import com.fiap.restaurante.repository.ClienteRepository;
 import com.fiap.restaurante.service.serviceImpl.ClienteServiceImpl;
@@ -22,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -52,32 +51,18 @@ public class ClienteServiceTest {
     class RegistrarCliente {
         @Test
         void devePermitirCadastrarCliente() {
-            //arr
-            var id = UUID.randomUUID();
             var cliente = ClienteHelper.gerarRegistro();
-            cliente.setId(id);
 
-            //act
             when(clienteRepository.save(any(Cliente.class)))
                     .thenAnswer(i -> i.getArgument(0));
 
             var clienteRegistrado = clienteService.cadastrarCliente(clienteService.clienteToDto(cliente));
-            //assert
-
-            assertThat(clienteRegistrado).isInstanceOf(Cliente.class)
-                    .isNotNull();
-            assertThat(clienteRegistrado.getEndereco()).isInstanceOf(Endereco.class)
-                    .isNotNull();
-            assertThat(clienteRegistrado.getNome())
-                    .isEqualTo(cliente.getNome());
-            assertThat(clienteRegistrado.getEmail())
-                    .isEqualTo(cliente.getEmail());
-            assertThat(clienteRegistrado.getFone())
-                    .isEqualTo(cliente.getFone());
-            assertThat(cliente.getId()).isNotNull();
+            assertThat(clienteRegistrado).isInstanceOf(ClienteDto.class).isNotNull();
+            assertThat(clienteRegistrado.nome()).isEqualTo(cliente.getNome());
+            assertThat(clienteRegistrado.email()).isEqualTo(cliente.getEmail());
+            assertThat(clienteRegistrado.fone()).isEqualTo(cliente.getFone());
             verify(clienteRepository, times(1)).save(any(Cliente.class));
-
-        }
+       }
     }
 
     @Nested
@@ -123,26 +108,19 @@ public class ClienteServiceTest {
     class BuscarPorId {
         @Test
         void devePermitirBuscarPorId() {
-            //arr
             var id = UUID.randomUUID();
             var cliente = ClienteHelper.gerarRegistro();
             cliente.setId(id);
             var clienteDto = clienteService.clienteToDto(cliente);
 
-
             when(clienteRepository.findById(any(UUID.class)))
                     .thenReturn(Optional.of(cliente));
-
-            //act
 
             var clienteObtido = clienteService
                     .buscarPorId(cliente.getId());
 
-            //assert
-
             assertThat(clienteObtido).isEqualTo(clienteDto);
             verify(clienteRepository, times(1)).findById(any(UUID.class));
-
         }
 
         @Test
@@ -156,7 +134,6 @@ public class ClienteServiceTest {
                     .hasMessage("Cliente não encontrado com o ID: " + id);
             verify(clienteRepository, times(1)).findById(id);
         }
-
     }
 
     @Nested
@@ -191,14 +168,6 @@ public class ClienteServiceTest {
             assertThat(clienteObtido.getNome()).isEqualTo(clienteNovo.getNome());
             assertThat(clienteObtido.getFone()).isEqualTo(clienteNovo.getFone());
             assertThat(clienteObtido.getEmail()).isEqualTo(clienteNovo.getEmail());
-
-
-
-        }
-
         }
     }
-
-
-
-
+}

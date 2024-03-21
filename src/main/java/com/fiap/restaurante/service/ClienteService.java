@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 public interface ClienteService {
-    Cliente cadastrarCliente(ClienteDto cLienteDto);
+    ClienteDto cadastrarCliente(ClienteDto cLienteDto);
 
     Page<ClienteDto> listarTodos(Pageable page);
 

@@ -37,8 +37,8 @@ public class ClienteController {
 
     @PostMapping
     @Operation(summary = "Efetua a inclusão de um novo cliente", method = "POST")
-    public ResponseEntity<Cliente> cadastrarCliente(@Valid @RequestBody ClienteDto clienteDto){
-        Cliente novoCliente = clienteService.cadastrarCliente(clienteDto);
+    public ResponseEntity<ClienteDto> cadastrarCliente(@Valid @RequestBody ClienteDto clienteDto){
+        var novoCliente = clienteService.cadastrarCliente(clienteDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
     }
 
