@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "Restaurante Response",
+  "type": "object",
+  "additionalProperties": false,
+
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "razaoSocial": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "nomeFantasia": {
+      "type": "string",
+      "maxLength": 60
+    },
+    "tipoCozinha": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "capacidade": {
+      "type": "integer"
+    },
+    "horaAbertura": {
+      "type": "string",
+      "format": "time"
+    },
+    "horaEncerramento": {
+      "type": "string",
+      "format": "time"
+    },
+    "endereco": {
+      "type": "object",
+      "properties": {
+        "logradouro": {
+          "type": "string"
+        },
+        "numero": {
+          "type": "string"
+        },
+        "bairro": {
+          "type": "string"
+        },
+        "cidade": {
+          "type": "string"
+        },
+        "estado": {
+          "type": "string"
+        },
+        "cep": {
+          "type": "string"
+        }
+      },
+      "required": ["logradouro", "numero", "bairro", "cidade", "estado", "cep"]
+    },
+    "mesas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "numero": {
+            "type": "integer"
+          },
+          "capacidade": {
+            "type": "integer"
+          }
+        },
+        "required": ["id", "numero", "capacidade"]
+      }
+    }
+  },
+  "required": ["razaoSocial", "nomeFantasia", "tipoCozinha", "capacidade", "horaAbertura", "horaEncerramento", "endereco", "mesas"]
+}

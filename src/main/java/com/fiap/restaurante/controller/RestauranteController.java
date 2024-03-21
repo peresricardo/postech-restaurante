@@ -5,7 +5,7 @@ import com.fiap.restaurante.domain.dto.RestauranteDto;
 import com.fiap.restaurante.service.RestauranteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +20,21 @@ public class RestauranteController {
 
     private final RestauranteService restauranteService;
 
-    @Autowired
     public RestauranteController(RestauranteService restauranteService) {
         this.restauranteService = restauranteService;
     }
 
     @PostMapping
     @Operation(summary = "Efetua a inclusão de um novo restaurante", method = "POST")
-    public ResponseEntity<Restaurante> cadastrarRestaurante(@RequestBody RestauranteDto restauranteDto) {
+    public ResponseEntity<Restaurante> cadastrarRestaurante(@Valid @RequestBody RestauranteDto restauranteDto) {
         Restaurante novoRestaurante = restauranteService.cadastrarRestaurante(restauranteDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoRestaurante);
     }
 
     @PostMapping("/{id}/mesas")
     @Operation(summary = "Efetua a inclusão de mesas em um restaurante", method = "POST")
-    public ResponseEntity<Restaurante> cadastrarMesa(@PathVariable UUID id, @RequestBody List<Integer> lugares) {
+    public ResponseEntity<Restaurante> cadastrarMesa(@PathVariable UUID id, @Valid
+                                                     @RequestBody List<Integer> lugares) {
         Restaurante restaurante = restauranteService.cadastraMesas(id, lugares);
         return ResponseEntity.ok().body(restaurante);
     }
@@ -48,7 +48,8 @@ public class RestauranteController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Efetua a alteração de um restaurante", method = "PUT")
-    public ResponseEntity<Restaurante> atualizarRestaurante(@PathVariable UUID id, @RequestBody RestauranteDto restauranteDto) {
+    public ResponseEntity<Restaurante> atualizarRestaurante(@PathVariable UUID id, @Valid
+                                                            @RequestBody RestauranteDto restauranteDto) {
         Restaurante restaurante = restauranteService.atualizarRestaurante(id, restauranteDto);
         return ResponseEntity.ok().body(restaurante);
     }

@@ -6,6 +6,7 @@ import com.fiap.restaurante.domain.dto.AvaliacaoDto;
 import com.fiap.restaurante.service.AvaliacaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,7 +29,7 @@ public class AvaliacaoController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Efetua a inclusão de uma nova avaliacao", method = "POST")
-    public ResponseEntity<Avaliacao> cadastrar(@RequestBody AvaliacaoDto avaliacaoDto){
+    public ResponseEntity<Avaliacao> cadastrar(@Valid @RequestBody AvaliacaoDto avaliacaoDto){
         Avaliacao novaAvaliacao = avaliacaoService.cadastrar(avaliacaoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaAvaliacao);
     }

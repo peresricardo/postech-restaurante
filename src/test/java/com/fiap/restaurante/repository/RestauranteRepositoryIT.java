@@ -61,7 +61,6 @@ class RestauranteRepositoryIT {
         }
     }
 
-    // ARRUMAR AQUI, FLUXO MESA
     @Nested
     class ListarRestaurantes {
 
