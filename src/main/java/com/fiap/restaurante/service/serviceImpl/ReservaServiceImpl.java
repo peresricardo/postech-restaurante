@@ -38,6 +38,9 @@ public class ReservaServiceImpl implements ReservaService {
             throw new RestauranteNotFoundException("Para fazer uma reserva indique um restaurante existente");
         }
         Optional<Mesa> validamesa = mesaRepository.findById(reserva.getIdMesa());
+        if(!validamesa.isPresent()) {
+            throw new IllegalArgumentException("Mesa não encontrada para esse restaurante");
+        }
         if(!restaurante.get().getMesas().contains(validamesa.get())) {
             throw new IllegalArgumentException("Indique uma mesa existente");
         }
