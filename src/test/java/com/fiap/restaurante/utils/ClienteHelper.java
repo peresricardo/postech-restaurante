@@ -48,4 +48,24 @@ public abstract class ClienteHelper {
     public static Cliente registrarCliente(Cliente cliente, ClienteRepository repository) {
         return repository.save(cliente);
     }
+
+    public static ClienteDto clienteToDto(Cliente cliente) {
+        return new ClienteDto(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getEmail(),
+                cliente.getFone(),
+                new EnderecoDto(
+                        cliente.getEndereco().getLogradouro(),
+                        cliente.getEndereco().getNumero(),
+                        cliente.getEndereco().getComplemento(),
+                        cliente.getEndereco().getBairro(),
+                        cliente.getEndereco().getCidade(),
+                        cliente.getEndereco().getUf(),
+                        cliente.getEndereco().getCep()
+                )
+        );
+
+
+    }
 }

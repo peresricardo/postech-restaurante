@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,10 @@ public class ClienteController {
 
 
     @GetMapping
-    public ResponseEntity<Page<ClienteDto>> listarClientes(Pageable pageable) {
+    public ResponseEntity<Page<ClienteDto>> listarClientes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
         Page<ClienteDto> clientes = clienteService.listarTodos(pageable);
         return ResponseEntity.ok(clientes);
     }
