@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -56,6 +59,7 @@ public class ClienteControllerTest {
     @Mock
     private ClienteService clienteService;
 
+    ObjectMapper objectMapper = new ObjectMapper();
 
     AutoCloseable openMocks;
 
@@ -113,6 +117,7 @@ public class ClienteControllerTest {
 
             mockMvc.perform(get("/clientes/{id}", id)
                     .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(cliente.getId().toString()))
                     .andExpect(jsonPath("$.nome").value(cliente.getNome()))
@@ -127,23 +132,25 @@ public class ClienteControllerTest {
 
         @Test
         void devePermitirListarClientes() throws Exception {
-        var clienteDto = ClienteHelper.clienteToDto(ClienteHelper.gerarRegistro());
+            var clienteDto = ClienteHelper.clienteToDto(ClienteHelper.gerarRegistroCompleto());
 
-        Page<ClienteDto> page = new PageImpl<>(Collections.singletonList(
-                clienteDto
-        ));
-            doReturn(page).when(clienteService).listarTodos(any(Pageable.class));
+            Page<ClienteDto> page = new PageImpl<>(Collections.singletonList(
+                    clienteDto
+            ));
+
+            when(clienteService.listarTodos(any(Pageable.class)))
+                    .thenReturn(page);
+
             mockMvc.perform(get("/clientes")
                             .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.content[0].nome").value(clienteDto.nome()))
                     .andExpect(jsonPath("$.content[0].nome").value(clienteDto.nome()))
                     .andExpect(jsonPath("$.content[0].fone").value(clienteDto.fone()))
                     .andExpect(jsonPath("$.content[0].email").value(clienteDto.email()));
 
             verify(clienteService, times(1))
                     .listarTodos(any(Pageable.class));
-
         }
 
     }

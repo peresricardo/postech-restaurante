@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/clientes", produces = {"application/json"})
 @Tag(name = "Cadastro de Clientes")
@@ -35,8 +36,9 @@ public class ClienteController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
+        log.info("requisição para listar mensagens foi efetuada: Página={}, Tamanho={}", page, size);
         Page<ClienteDto> clientes = clienteService.listarTodos(pageable);
-        return ResponseEntity.ok(clientes);
+        return new ResponseEntity<>(clientes,HttpStatus.OK);
     }
 
     @PostMapping

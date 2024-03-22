@@ -7,6 +7,8 @@ import com.fiap.restaurante.domain.embedded.Endereco;
 import com.fiap.restaurante.dto.ClienteRequest;
 import com.fiap.restaurante.repository.ClienteRepository;
 
+import java.util.UUID;
+
 
 public abstract class ClienteHelper {
     public static Cliente gerarRegistro() {
@@ -19,6 +21,25 @@ public abstract class ClienteHelper {
         endereco.setCidade("Cidade Auto");
         endereco.setComplemento("Comple");
         var entity = Cliente.builder()
+                .nome("Cliente Automatizado")
+                .email("email@email.teste")
+                .fone("(11) 99999-9999")
+                .endereco(endereco)
+                .build();
+        return entity;
+    }
+
+    public static Cliente gerarRegistroCompleto() {
+        var endereco = new Endereco();
+        endereco.setLogradouro("Endereco Automatizado");
+        endereco.setNumero("1010");
+        endereco.setUf("SP");
+        endereco.setCep("00000-000");
+        endereco.setBairro("Bairro Auto");
+        endereco.setCidade("Cidade Auto");
+        endereco.setComplemento("Comple");
+        var entity = Cliente.builder()
+                .id(UUID.randomUUID())
                 .nome("Cliente Automatizado")
                 .email("email@email.teste")
                 .fone("(11) 99999-9999")

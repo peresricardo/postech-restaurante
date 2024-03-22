@@ -37,7 +37,8 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Page<ClienteDto> listarTodos(Pageable page) {
         Page<Cliente> clientes = clienteRepository.findAll(page);
-        return clientes.map(this::clienteToDto);
+        Page<ClienteDto> clientesDto = clientes.map(this::clienteToDto);
+        return clientesDto;
     }
 
     @Override
