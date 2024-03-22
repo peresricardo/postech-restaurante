@@ -27,10 +27,10 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente cadastrarCliente(ClienteDto clienteDto) {
+    public ClienteDto cadastrarCliente(ClienteDto clienteDto) {
         Cliente novoCliente = new Cliente(clienteDto);
         clienteRepository.save(novoCliente);
-        return novoCliente;
+        return clienteToDto(novoCliente);
     }
 
     @Override

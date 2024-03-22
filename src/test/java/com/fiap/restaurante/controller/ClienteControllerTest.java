@@ -1,11 +1,9 @@
-package com.fiap.restaurante;
+package com.fiap.restaurante.controller;
 
 import com.callibrity.logging.test.LogTracker;
 import com.callibrity.logging.test.LogTrackerStub;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.restaurante.controller.ClienteController;
-
-import com.fiap.restaurante.domain.Cliente;
 import com.fiap.restaurante.domain.dto.ClienteDto;
 import com.fiap.restaurante.domain.dto.EnderecoDto;
 import com.fiap.restaurante.dto.ClienteRequest;
@@ -28,13 +26,8 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -83,7 +76,6 @@ public class ClienteControllerTest {
             mockMvc.perform(post("/clientes")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(asJsonString(clienteRequest)))
-                    .andDo(print())
                     .andExpect(status().isCreated());
 
             verify(clienteService, times(1))

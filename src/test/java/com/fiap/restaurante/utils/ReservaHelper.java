@@ -10,7 +10,7 @@ public class ReservaHelper {
 
     public static Reserva gerarReserva() {
         return Reserva.builder()
-                    .idMesa(UUID.fromString("1f2b6507-0443-40c5-b5ac-7e89cbdfee19"))
+                    .idMesa(UUID.fromString("dfce2cfe-dc1c-4e45-9838-a123aad1a241"))
                     .idRestaurante(UUID.randomUUID())
                     .horario(LocalDateTime.now()).build();
     }

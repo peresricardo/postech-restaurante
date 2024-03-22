@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface ReservaService {
 
-    Reserva cadastrar(Reserva restauranteDto);
+    Reserva cadastrar(Reserva reserva);
 
     Page<Reserva> listar(Pageable pageable);
 

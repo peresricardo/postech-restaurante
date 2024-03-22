@@ -1,11 +1,14 @@
 package com.fiap.restaurante.service;
 
+import com.fiap.restaurante.domain.Mesa;
 import com.fiap.restaurante.domain.Reserva;
+import com.fiap.restaurante.domain.Restaurante;
 import com.fiap.restaurante.repository.MesaRepository;
 import com.fiap.restaurante.repository.ReservaRepository;
 import com.fiap.restaurante.repository.RestauranteRepository;
 import com.fiap.restaurante.service.serviceImpl.ReservaServiceImpl;
 import com.fiap.restaurante.utils.ReservaHelper;
+import com.fiap.restaurante.utils.RestauranteHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,13 +18,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Fail.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
@@ -50,25 +50,40 @@ public class ReservaServiceTest {
         mock.close();
     }
 
-    //implementar teste padrão e exceções
-//    @Test
-//    void devePermitirRegistrarReserva() {
-//        var reserva = ReservaHelper.gerarReserva();
-//
-//        when(restauranteRepository.findById(any(UUID.class))).thenReturn(Optional.of(RestauranteHelper.gerarRegistro()));
-//        when(mesaRepository.findById())
-//        when(reservaReporitory.save(any(Reserva.class)))
-//                .thenAnswer(i -> i.getArgument(0));
-//
-//        var reservaRegistrada = reservaService.cadastrar(reserva);
-//
-//        assertThat(reservaRegistrada).isInstanceOf(Reserva.class).isNotNull();
-//        assertThat(reservaRegistrada.getIdRestaurante()).isEqualTo(reserva.getIdRestaurante());
-//        assertThat(reservaRegistrada.getId()).isEqualTo(reserva.getId());
-//        assertThat(reservaRegistrada.getIdMesa()).isEqualTo(reserva.getIdMesa());
-//
-//        verify(reservaReporitory, times(1)).save(any(Reserva.class));
-//    }
+    @Test
+    void devePermitirRegistrarReserva() {
+        var idRestarante = UUID.fromString("c73c7093-9457-443d-9d28-c022f72178e4");
+        var idMesa = UUID.fromString("dfce2cfe-dc1c-4e45-9838-a123aad1a241");
+
+        var mesa = new Mesa();
+        mesa.setId(idMesa);
+        mesa.setIdRestaurante(idRestarante);
+        mesa.setLugares(50);
+        when(mesaRepository.save(any(Mesa.class))).thenAnswer(i -> i.getArgument(0));
+        when(mesaRepository.findById(idMesa)).thenReturn(Optional.of(mesa));
+
+        List<Mesa> mesas = new ArrayList<>();
+        mesas.add(mesa);
+
+        var restaurante = RestauranteHelper.gerarRegistro();
+        restaurante.setId(idRestarante);
+        restaurante.setMesas(mesas);
+        when(restauranteRepository.save(any(Restaurante.class))).thenAnswer(i -> i.getArgument(0));
+        when(restauranteRepository.findById(idRestarante)).thenReturn(Optional.of(restaurante));
+
+        var reserva = ReservaHelper.gerarReserva();
+        reserva.setIdRestaurante(idRestarante);
+        when(reservaRepository.save(any(Reserva.class))).thenAnswer(i -> i.getArgument(0));
+
+        var reservaRegistrada = reservaService.cadastrar(reserva);
+
+        assertThat(reservaRegistrada).isInstanceOf(Reserva.class).isNotNull();
+        assertThat(reservaRegistrada.getIdRestaurante()).isEqualTo(reserva.getIdRestaurante());
+        assertThat(reservaRegistrada.getIdMesa()).isEqualTo(reserva.getIdMesa());
+
+        verify(reservaRepository, times(1)).save(any(Reserva.class));
+    }
+
 
 //    @Test
 //    void devePermitirAlterarReserva() {

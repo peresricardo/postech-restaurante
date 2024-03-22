@@ -13,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_avaliacao")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -32,6 +33,4 @@ public class Avaliacao {
         this.nota = avaliacaoDto.nota();
         this.comentario = avaliacaoDto.comentario();
     }
-
-
 }
