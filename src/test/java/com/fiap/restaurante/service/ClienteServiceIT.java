@@ -22,8 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 public class ClienteServiceIT {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+
 
     @Autowired
     private ClienteServiceImpl clienteService;

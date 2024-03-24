@@ -3,6 +3,7 @@ package com.fiap.restaurante.domain;
 import com.fiap.restaurante.domain.dto.ClienteDto;
 import com.fiap.restaurante.domain.embedded.Endereco;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Cliente {
     @GeneratedValue(strategy =  GenerationType.UUID)
     private UUID id;
 
+    @NotEmpty(message = "nome não pode estar vazio")
     @Column
     private String nome;
 
@@ -49,4 +51,6 @@ public class Cliente {
         this.endereco.setUf(clienteDto.endereco().uf());
         this.endereco.setCep(clienteDto.endereco().cep());
     }
+
+
 }

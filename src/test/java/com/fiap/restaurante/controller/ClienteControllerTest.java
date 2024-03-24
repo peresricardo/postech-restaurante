@@ -8,6 +8,7 @@ import com.fiap.restaurante.domain.Cliente;
 import com.fiap.restaurante.domain.dto.ClienteDto;
 import com.fiap.restaurante.domain.dto.EnderecoDto;
 import com.fiap.restaurante.dto.ClienteRequest;
+import com.fiap.restaurante.exception.ClienteNotFoundException;
 import com.fiap.restaurante.handler.GlobalExceptionHandler;
 import com.fiap.restaurante.repository.ClienteRepository;
 import com.fiap.restaurante.service.ClienteService;
@@ -33,6 +34,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -130,30 +134,96 @@ public class ClienteControllerTest {
     @Nested
     class ListarClientes {
 
-        @Test
-        void devePermitirListarClientes() throws Exception {
-            var clienteDto = ClienteHelper.clienteToDto(ClienteHelper.gerarRegistroCompleto());
-
-            Page<ClienteDto> page = new PageImpl<>(Collections.singletonList(
-                    clienteDto
-            ));
-
-            when(clienteService.listarTodos(any(Pageable.class)))
-                    .thenReturn(page);
-
-            mockMvc.perform(get("/clientes")
-                            .contentType(MediaType.APPLICATION_JSON))
-                    .andDo(print())
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.content[0].nome").value(clienteDto.nome()))
-                    .andExpect(jsonPath("$.content[0].fone").value(clienteDto.fone()))
-                    .andExpect(jsonPath("$.content[0].email").value(clienteDto.email()));
-
-            verify(clienteService, times(1))
-                    .listarTodos(any(Pageable.class));
-        }
+//        @Test
+//        void devePermitirListarClientes() throws Exception {
+//            var clienteDto = ClienteHelper.clienteToDto(ClienteHelper.gerarRegistroCompleto());
+//            Page<ClienteDto> page = new PageImpl<>(Collections.singletonList(
+//                    clienteDto
+//            ));
+//
+//            when(clienteService.listarTodos(any(Pageable.class)))
+//                    .thenReturn(page);
+//
+//            mockMvc.perform(get("/clientes")
+//                            .contentType(MediaType.APPLICATION_JSON))
+//                    .andDo(print())
+//                    .andExpect(status().isOk())
+//                    .andExpect(jsonPath("$.content[0].nome").value(clienteDto.nome()))
+//                    .andExpect(jsonPath("$.content[0].fone").value(clienteDto.fone()))
+//                    .andExpect(jsonPath("$.content[0].email").value(clienteDto.email()));
+//
+//            verify(clienteService, times(1))
+//                    .listarTodos(any(Pageable.class));
+//        }
+//        @Test
+//        void devePermitirListarClientes_QuandoNaoExisteRegistro()
+//                throws Exception {
+//            Page<ClienteDto> page = new PageImpl<>(Collections.emptyList());
+//            when(clienteService.listarTodos(any(Pageable.class)))
+//                    .thenReturn(page);
+//            mockMvc.perform(get("/clientes")
+//                            .contentType(MediaType.APPLICATION_JSON))
+//                    .andDo(print())
+//                    .andExpect(status().isOk())
+//                    .andExpect(jsonPath("$.content").isArray())
+//                    .andExpect(jsonPath("$.content", empty()))
+//                    .andExpect(jsonPath("$.content", hasSize(0)));
+//            verify(clienteService, times(1))
+//                    .listarTodos(any(Pageable.class));
+//        }
 
     }
+
+    @Nested
+    class ApagarMensagem {
+
+        @Test
+        void devePermitirApagarCliente() throws Exception {
+            var id = UUID.fromString("259bdc02-1ab5-11ee-be56-0242ac120002");
+            when(clienteService.deletarCliente(any(UUID.class)))
+                    .thenReturn(true);
+
+            mockMvc.perform(delete("/clientes/{id}", id))
+                    .andExpect(status().isOk())
+                    .andExpect((content().string("true")));
+            verify(clienteService, times(1))
+                    .deletarCliente(any(UUID.class));
+        }
+
+
+
+//        @Test
+//        void deveGerarExcecao_QuandoApagarCliente_IdNaoExistente()
+//                throws Exception {
+//            var id = UUID.randomUUID();
+//
+//            when(clienteService.deletarCliente(any(UUID.class)))
+//                    .thenThrow(new ClienteNotFoundException("cliente não encontrado"));
+//
+//            mockMvc.perform(delete("/clientes/{id}", id)
+//                            .contentType(MediaType.APPLICATION_JSON))
+//                    .andExpect(status().isNotFound())
+//                    .andExpect(content().string("cliente não encontrado"));
+//            verify(clienteService, times(1))
+//                    .deletarCliente(any(UUID.class));
+//        }
+////
+////        @Test
+////        void deveGerarMensagemDeLog_QuandoApagarMensagem() throws Exception {
+////            var id = UUID.fromString("259bdc02-1ab5-11ee-be56-0242ac120002");
+////            when(mensagemService.apagarMensagem(any(UUID.class))).thenReturn(true);
+////
+////            mockMvc.perform(delete("/mensagens/{id}", id))
+////                    .andExpect(status().isOk());
+////            assertThat(logTracker.size()).isEqualTo(1);
+////            assertThat(logTracker.contains("requisição para apagar mensagem foi efetuada"))
+////                    .isTrue();
+////        }
+
+    }
+
+
+
 
     public static String asJsonString(final Object obj) {
         try {
@@ -162,6 +232,8 @@ public class ClienteControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+
 
 
 

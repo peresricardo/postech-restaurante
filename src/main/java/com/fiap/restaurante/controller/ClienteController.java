@@ -38,7 +38,7 @@ public class ClienteController {
         Pageable pageable = PageRequest.of(page, size);
         log.info("requisição para listar mensagens foi efetuada: Página={}, Tamanho={}", page, size);
         Page<ClienteDto> clientes = clienteService.listarTodos(pageable);
-        return new ResponseEntity<>(clientes,HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(clientes);
     }
 
     @PostMapping
