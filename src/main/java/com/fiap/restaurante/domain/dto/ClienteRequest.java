@@ -1,5 +1,5 @@
 
-package com.fiap.restaurante.dto;
+package com.fiap.restaurante.domain.dto;
 
 import com.fiap.restaurante.domain.embedded.Endereco;
 import lombok.AllArgsConstructor;

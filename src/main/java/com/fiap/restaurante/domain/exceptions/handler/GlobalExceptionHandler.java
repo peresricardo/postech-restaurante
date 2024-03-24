@@ -1,8 +1,10 @@
 
-package com.fiap.restaurante.handler;
+package com.fiap.restaurante.domain.exceptions.handler;
 
 
-import com.fiap.restaurante.dto.ErrorResponse;
+import com.fiap.restaurante.domain.exceptions.RestauranteNotFoundException;
+import com.fiap.restaurante.domain.dto.ErrorResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +34,16 @@ public class GlobalExceptionHandler {
         .status(HttpStatus.BAD_REQUEST)
         .contentType(MediaType.APPLICATION_JSON)
         .body(errorResponse);
+  }
+
+  @ExceptionHandler(RestauranteNotFoundException.class)
+  public ResponseEntity<Object> handleRestauranteNotFoundException(
+          RestauranteNotFoundException ex, HttpServletRequest request) {
+    HttpStatus status = HttpStatus.NOT_FOUND;
+    ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            Collections.singletonList(ex.getMessage())
+    );
+    return ResponseEntity.status(status).body(errorResponse);
   }
 }

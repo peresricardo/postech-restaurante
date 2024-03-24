@@ -1,4 +1,4 @@
-package com.fiap.restaurante.exception;
+package com.fiap.restaurante.domain.exceptions;
 
 public class ValidacaoCampo {
     private String campo;

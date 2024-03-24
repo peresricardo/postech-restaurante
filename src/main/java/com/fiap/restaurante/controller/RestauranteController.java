@@ -2,6 +2,7 @@ package com.fiap.restaurante.controller;
 
 import com.fiap.restaurante.domain.Restaurante;
 import com.fiap.restaurante.domain.dto.RestauranteDto;
+import com.fiap.restaurante.domain.exceptions.RestauranteNotFoundException;
 import com.fiap.restaurante.service.RestauranteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -57,8 +58,13 @@ public class RestauranteController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Efetua a exclusão de um restaurante", method = "DELETE")
     public ResponseEntity<Void> deletarRestaurante(@PathVariable UUID id) {
-        restauranteService.deletarRestaurante(id);
-        return ResponseEntity.noContent().build();
+        try {
+            restauranteService.deletarRestaurante(id);
+            return ResponseEntity.noContent().build();
+        } catch (RestauranteNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 

@@ -1,4 +1,4 @@
-package com.fiap.restaurante.exception;
+package com.fiap.restaurante.domain.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
