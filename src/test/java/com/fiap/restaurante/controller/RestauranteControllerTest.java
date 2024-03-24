@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fiap.restaurante.domain.Restaurante;
 import com.fiap.restaurante.domain.dto.RestauranteDto;
+import com.fiap.restaurante.domain.exceptions.RestauranteNotFoundException;
 import com.fiap.restaurante.domain.exceptions.handler.GlobalExceptionHandler;
 import com.fiap.restaurante.service.RestauranteService;
 import com.fiap.restaurante.utils.RestauranteHelper;
@@ -72,7 +73,7 @@ class RestauranteControllerTest {
         void devePermitirCadastrarRestaurante() throws Exception {
             Restaurante restauranteRequest = RestauranteHelper.gerarRegistro();
             when(restauranteService.cadastrarRestaurante(any(RestauranteDto.class)))
-                    .thenAnswer(i -> i.getArgument(0));
+                    .thenReturn(new Restaurante());
 
             mockMvc.perform(post("/restaurantes")
                             .contentType(MediaType.APPLICATION_JSON)
@@ -120,21 +121,20 @@ class RestauranteControllerTest {
                     .deletarRestaurante(any(UUID.class));
         }
 
-//        @Test
-//        void deveGerarExcecao_QuandoApagarCliente_IdNaoExistente() throws Exception {
-//            UUID id = UUID.randomUUID();
-//
-//            doThrow(new RestauranteNotFoundException("Restaurante não encontrado"))
-//                    .when(restauranteService).deletarRestaurante(any(UUID.class));
-//
-//            mockMvc.perform(delete("/restaurantes/{id}", id)
-//                            .contentType(MediaType.APPLICATION_JSON))
-//                    .andExpect(status().isNotFound())
-//                    .andExpect(jsonPath("$.error").value("Restaurante não encontrado"));
-//
-//            verify(restauranteService, times(1))
-//                    .deletarRestaurante(any(UUID.class));
-//        }
+        @Test
+        void deveGerarExcecao_QuandoApagarRestaurante_IdNaoExistente() throws Exception {
+            UUID id = UUID.randomUUID();
+
+            doThrow(new RestauranteNotFoundException("Restaurante não encontrado"))
+                    .when(restauranteService).deletarRestaurante(eq(id)); // Lançar exceção quando tentar apagar com este ID
+
+            mockMvc.perform(delete("/restaurantes/{id}", id)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound());
+
+            verify(restauranteService, times(1))
+                    .deletarRestaurante(eq(id)); // Verificar se o serviço foi chamado com este ID
+        }
 
     }
 

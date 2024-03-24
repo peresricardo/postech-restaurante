@@ -31,8 +31,7 @@ public class RestauranteServiceImpl implements RestauranteService {
     @Override
     public Restaurante cadastrarRestaurante(RestauranteDto restauranteDto) {
         Restaurante novoRestaurante = new Restaurante(restauranteDto);
-        restauranteRepository.save(novoRestaurante);
-        return novoRestaurante;
+        return restauranteRepository.save(novoRestaurante);
     }
 
     @Override
