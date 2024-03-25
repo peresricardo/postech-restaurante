@@ -2,7 +2,6 @@ package com.fiap.restaurante.repository;
 
 import com.fiap.restaurante.domain.Avaliacao;
 import com.fiap.restaurante.utils.AvaliacaoHelper;
-import com.fiap.restaurante.utils.ClienteHelper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class AvaliacaoRepositoryIT {
     }
 
     @Nested
-    class avaliar {
+    class Avaliar {
         @Test
         void devePermitirAvaliar() {
             var avaliacao = AvaliacaoHelper.gerarAvaliacao();
@@ -44,7 +43,7 @@ public class AvaliacaoRepositoryIT {
     }
 
     @Nested
-    class buscarAvaliacao {
+    class BuscarAvaliacao {
         @Test
         void deveBuscarAvaliacaoPorId() {
             var avaliacao = AvaliacaoHelper.gerarAvaliacao();
