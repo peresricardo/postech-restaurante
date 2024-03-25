@@ -3,16 +3,9 @@ package com.fiap.restaurante.controller;
 import com.callibrity.logging.test.LogTracker;
 import com.callibrity.logging.test.LogTrackerStub;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fiap.restaurante.controller.ClienteController;
-import com.fiap.restaurante.domain.Cliente;
 import com.fiap.restaurante.domain.dto.ClienteDto;
-import com.fiap.restaurante.domain.dto.EnderecoDto;
-import com.fiap.restaurante.dto.ClienteRequest;
-import com.fiap.restaurante.exception.ClienteNotFoundException;
-import com.fiap.restaurante.handler.GlobalExceptionHandler;
-import com.fiap.restaurante.repository.ClienteRepository;
+import com.fiap.restaurante.domain.exceptions.handler.GlobalExceptionHandler;
 import com.fiap.restaurante.service.ClienteService;
-import com.fiap.restaurante.service.serviceImpl.ClienteServiceImpl;
 import com.fiap.restaurante.utils.ClienteHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,35 +14,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 public class ClienteControllerTest {

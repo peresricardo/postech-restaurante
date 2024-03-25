@@ -4,8 +4,8 @@ import com.fiap.restaurante.domain.Cliente;
 import com.fiap.restaurante.domain.dto.ClienteDto;
 import com.fiap.restaurante.domain.dto.EnderecoDto;
 import com.fiap.restaurante.domain.embedded.Endereco;
-import com.fiap.restaurante.dto.ClienteRequest;
 import com.fiap.restaurante.repository.ClienteRepository;
+import com.fiap.restaurante.domain.dto.ClienteRequest;
 
 import java.util.UUID;
 
